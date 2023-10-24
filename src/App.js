@@ -7,7 +7,7 @@ function App() {
   const [nodes, setNodes] = useState([]);
   const [selectedNode, setSelectedNode] = useState(null);
   const [nodeCount, setNodeCount] = useState(0);
-  const [draggedNode, setDraggedNode] = useState(null);
+  const [dragMode, setDragMode] = useState(false); // Track drag mode
 
   const addNode = () => {
     const newNodeName = `NODE${nodeCount + 1}`;
@@ -42,18 +42,7 @@ function App() {
     setNodes(updatedNodes);
   };
 
-  const onMoveNode = (draggedNodeName, targetNodeName) => {
-    const updatedNodes = [...nodes];
-    const draggedNodeIndex = nodes.findIndex((node) => node.name === draggedNodeName);
-    const targetNodeIndex = nodes.findIndex((node) => node.name === targetNodeName);
-
-    if (draggedNodeIndex !== -1 && targetNodeIndex !== -1) {
-      updatedNodes.splice(draggedNodeIndex, 1);
-      updatedNodes.splice(targetNodeIndex, 0, nodes[draggedNodeIndex]);
-      setNodes(updatedNodes);
-      setDraggedNode(null);
-    }
-  };
+  
 
   const editNode = (nodeName, nodeDetails) => {
     const updatedNodes = nodes.map((node) =>
@@ -67,10 +56,17 @@ function App() {
     setSelectedNode(nodeName);
   };
 
+  const toggleDragMode = () => {
+    setDragMode(!dragMode); // Toggle drag mode
+  };
+
   return (
     <div className="App">
       <div className="buttons">
         <button onClick={addNode}>Add New Node</button>
+        <button onClick={toggleDragMode}>
+          {dragMode ? 'Disable Move Node' : 'Move Node'}
+        </button>
       </div>
       <div className="nodes">
         {nodes.map((node) => (
@@ -83,7 +79,7 @@ function App() {
             onEdit={editNode}
             onAddSubnode={addSubnode}
             onDeleteSubnode={deleteSubnode}
-            onMoveNode={onMoveNode}
+            
           />
         ))}
       </div>

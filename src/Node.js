@@ -1,5 +1,5 @@
 // src/Node.js
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import Subnode from './Subnode';
 
 const Node = ({
@@ -10,11 +10,15 @@ const Node = ({
   onEdit,
   onAddSubnode,
   onDeleteSubnode,
-  onMoveNode,
+  //onEditSubnode,
+  //onMoveNode,
 }) => {
   const [editing, setEditing] = useState(false);
   const [nodeDetails, setNodeDetails] = useState(node.details);
-  const nodeRef = useRef(null);
+  //const nodeRef = useRef(null);
+  const [dragging, setDragging] = useState(false);
+  const [position, setPosition] = useState({ x: 0, y: 0 });
+  const [offset, setOffset] = useState({ x: 0, y: 0 });
 
   const handleEditClick = () => {
     setEditing(true);
@@ -29,7 +33,7 @@ const Node = ({
     onNodeClick(node.name);
   };
 
-  const handleDragStart = (e) => {
+  /*const handleDragStart = (e) => {
     e.dataTransfer.setData('text/plain', node.name);
   };
 
@@ -41,16 +45,36 @@ const Node = ({
     e.preventDefault();
     const draggedNodeName = e.dataTransfer.getData('text/plain');
     onMoveNode(draggedNodeName, node.name);
+  }; */
+
+  const handleMouseDown = (e) => {
+    setDragging(true);
+    // Calculate the offset between the mouse and the current position of the node
+    const offsetX = e.clientX - position.x;
+    const offsetY = e.clientY - position.y;
+    setOffset({ x: offsetX, y: offsetY });
+  };
+
+  const handleMouseMove = (e) => {
+    if (dragging) {
+      // Update the position of the node based on mouse movement
+      const newX = e.clientX - offset.x;
+      const newY = e.clientY - offset.y;
+      setPosition({ x: newX, y: newY });
+    }
+  };
+
+  const handleMouseUp = () => {
+    setDragging(false);
   };
 
   return (
     <div
-      ref={nodeRef}
-      className={`node ${node.name === selectedNode ? 'selected' : ''}`}
-      draggable
-      onDragStart={handleDragStart}
-      onDragOver={handleDragOver}
-      onDrop={handleDrop}
+      className="node"
+      style={{ transform: `translate(${position.x}px, ${position.y}px)` }}
+      onMouseDown={handleMouseDown}
+      onMouseMove={handleMouseMove}
+      onMouseUp={handleMouseUp}
     >
       <div className="node-header" onClick={handleNodeClick}>
         <span>{node.name}</span>
@@ -77,6 +101,7 @@ const Node = ({
         <Subnode
           key={subnodeName}
           name={subnodeName}
+          
           onDelete={() => onDeleteSubnode(node.name, subnodeName)}
         />
       ))}
