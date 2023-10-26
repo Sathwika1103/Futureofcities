@@ -1,7 +1,7 @@
 // src/Subnode.js
 import React from 'react';
 
-const Subnode = ({ name, onDelete }) => {
+const Subnode = ({ name, onDelete, onAddSubnode }) => {
   return (
     <div className="subnode">
       <div className="subnode-header">

@@ -10,7 +10,7 @@ const Node = ({
   onEdit,
   onAddSubnode,
   onDeleteSubnode,
-  //onEditSubnode,
+  //onAddSupersubnode,
   //onMoveNode,
 }) => {
   const [editing, setEditing] = useState(false);
