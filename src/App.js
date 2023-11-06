@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import './App.css';
 import Node from './Node';
+import MainPage from './MainPage';
 
 function App() {
   const [nodes, setNodes] = useState([]);
@@ -62,6 +63,7 @@ function App() {
 
   return (
     <div className="App">
+      <MainPage />
       <div className="buttons">
         <button onClick={addNode}>Add New Node</button>
         <button onClick={toggleDragMode}>
