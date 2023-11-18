@@ -1,85 +1,84 @@
-import React, { useState, useEffect } from 'react';
+// MainPage.js
+import React, { useState, useRef, useEffect } from 'react';
 import './MainPage.css';
 
-function MainPage() {
-  const [showAboutOverlay, setShowAboutOverlay] = useState(false);
-  const [showContactOverlay, setShowContactOverlay] = useState(false);
+const MainPage = () => {
+  const [showAboutPopup, setShowAboutPopup] = useState(false);
+  const [showContactPopup, setShowContactPopup] = useState(false);
+  const popupRef = useRef(null);
 
   const handleAboutClick = () => {
-    setShowAboutOverlay(true);
+    setShowAboutPopup(true);
+    setShowContactPopup(false); // Close contact popup if open
   };
 
   const handleContactClick = () => {
-    setShowContactOverlay(true);
+    setShowContactPopup(true);
+    setShowAboutPopup(false); // Close about popup if open
   };
 
-  const handleBackClick = () => {
-    setShowAboutOverlay(false);
-    setShowContactOverlay(false);
+  const handleClosePopup = () => {
+    setShowAboutPopup(false);
+    setShowContactPopup(false);
+  };
+
+  const handleOutsideClick = (event) => {
+    if (popupRef.current && !popupRef.current.contains(event.target)) {
+      handleClosePopup();
+    }
   };
 
   useEffect(() => {
-    function handleClickOutside(event) {
-      if (
-        (showAboutOverlay || showContactOverlay) &&
-        event.target.classList.contains('overlay')
-      ) {
-        setShowAboutOverlay(false);
-        setShowContactOverlay(false);
-      }
-    }
-
-    document.addEventListener('click', handleClickOutside);
-
+    document.addEventListener('mousedown', handleOutsideClick);
     return () => {
-      document.removeEventListener('click', handleClickOutside);
+      document.removeEventListener('mousedown', handleOutsideClick);
     };
-  }, [showAboutOverlay, showContactOverlay]);
+  }, []);
 
   return (
-    <div className={`main-container ${showAboutOverlay || showContactOverlay ? 'blur' : ''}`}>
+    <div className="main-container">
       <div className="header">
-        <div className="website-name">Your Website Name</div>
-        <div className="navigation-bar">
-          <a className="nav-link" href="/about" onClick={handleAboutClick}>
-            About
-          </a>
-          <a className="nav-link" href="/contact" onClick={handleContactClick}>
+        <div className="logo">Website Name</div>
+        <div className="buttons">
+          <button className="button">Login</button>
+          <button className="button" onClick={handleContactClick}>
             Contact
-          </a>
-          
-          <a className="nav-link" href="/login">
-            Login
-          </a>
+          </button>
+          <button className="button" onClick={handleAboutClick}>
+            About
+          </button>
         </div>
       </div>
-      {showAboutOverlay && (
-        <div className="overlay">
-          <div className="overlay-content">
-            <div className="overlay-header">
-              <span className="back-button" onClick={handleBackClick}>
-                &lt; Back
-              </span>
-              <h2>About Section</h2>
-            </div>
-            {/* Add your About section content here */}
+
+      {showContactPopup && (
+        <div className="popup" ref={popupRef}>
+          <div className="popup-content">
+            <span className="close" onClick={handleClosePopup}>
+              &times;
+            </span>
+            <p>Contact form or information goes here...</p>
+            <button className="close-button" onClick={handleClosePopup}>
+              Close
+            </button>
           </div>
         </div>
       )}
-      {showContactOverlay && (
-        <div className="overlay">
-          <div className="overlay-content">
-            <div className="overlay-header">
-              
-              <h2>Contact Section</h2>
-            </div>
-            {<p>We are here for you!</p>}
-            {<p>Our team of experts is on hand to answer your questions.</p>}
+
+      {showAboutPopup && (
+        <div className="popup" ref={popupRef}>
+          <div className="popup-content">
+            <span className="close" onClick={handleClosePopup}>
+              &times;
+            </span>
+            <p>About content goes here...</p>
+            <button className="close-button" onClick={handleClosePopup}>
+              Close
+            </button>
           </div>
         </div>
       )}
     </div>
   );
-}
+};
 
 export default MainPage;

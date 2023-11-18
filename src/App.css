@@ -4,8 +4,17 @@
   font-family: 'Arial', sans-serif;
 }
 
+body {
+  margin: 0;
+  padding: 0;
+  background: url('https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/007ebf7e-90c4-409e-af46-344fb83e5b33/dr642s-3f4f75cd-450b-4f02-a3bd-a6979993e1be.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcLzAwN2ViZjdlLTkwYzQtNDA5ZS1hZjQ2LTM0NGZiODNlNWIzM1wvZHI2NDJzLTNmNGY3NWNkLTQ1MGItNGYwMi1hM2JkLWE2OTc5OTkzZTFiZS5qcGcifV1dLCJhdWQiOlsidXJuOnNlcnZpY2U6ZmlsZS5kb3dubG9hZCJdfQ.H2r2J0k9nesT6tsPBx9mq3RBr8S24ho6-dQDLo_kX4o') no-repeat center center fixed;
+  background-size: cover;
+}
+
+
 .buttons {
   margin: 20px 0;
+  margin-left: 650px;
 }
 
 button {
