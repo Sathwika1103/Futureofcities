@@ -38,7 +38,7 @@ const MainPage = () => {
   return (
     <div className="main-container">
       <div className="header">
-        <div className="logo">Website Name</div>
+        <div className="logo">Future of Cities</div>
         <div className="buttons">
           <button className="button">Login</button>
           <button className="button" onClick={handleContactClick}>

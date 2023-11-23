@@ -15,8 +15,10 @@
 }
 
 .logo {
-  font-size: 1.5em;
+  font-size: 2em;
+  font-weight: bold;
   margin-left: 0px;
+  white-space: nowrap; 
 }
 
 .buttons {
